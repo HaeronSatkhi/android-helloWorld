@@ -37,4 +37,4 @@ pipeline {
 		        sh 'gradle assembleRelease'
            }
         }
-    
+  }
