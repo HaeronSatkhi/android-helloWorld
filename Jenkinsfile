@@ -7,7 +7,7 @@ pipeline {
     ECRCRED = 'ecr:ap-south-1:awscred'   
     Sakthi_UserName =credentials("Localzi_Github_Password")
         KEY_PASSWORD = "keypwd"
-        //KEY_ALIAS = "androidAlias"
+        KEY_ALIAS = "androidAlias"
         STORE_PATH = credentials('android_keystore')
         KEYSTORE_PASSWORD = "keystorepwd"
   }
