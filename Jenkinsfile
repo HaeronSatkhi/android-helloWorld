@@ -46,11 +46,7 @@ pipeline {
 		 trackName: 'alpha',
 		 //trackName: 'internal',
 		 //trackName: 'release'
-	         rolloutPercentage: '0',                 
-                 recentChangeList: [
-                   [language: 'en-GB', text: "Please test the changes from Jenkins build ${env.BUILD_NUMBER}."],
-                   [language: 'de-DE', text: "Bitte die Änderungen vom Jenkins Build ${env.BUILD_NUMBER} testen."]
-                 ]	  
+	         rolloutPercentage: '0'                      
 		}
 	    }
 	}
