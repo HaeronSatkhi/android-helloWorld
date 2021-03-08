@@ -22,20 +22,37 @@ pipeline {
 	      sh 'git clone https://github.com/DPMadhavan/android-helloWorld.git'		
       }
      } 
-  /*  stage('Setup Tools') {
+   stage('Setup Tools') {
 	   steps {
              withCredentials([file(credentialsId: 'android_keystore', variable: 'KEYFILE')]) {
                  sh "cp \$KEYFILE app/keystore.jks"
              } 
 	         } 
-         } */
+         } 
     stage('Build') {
           steps {
 		        sh 'gradle clean'
 		        sh 'gradle assembleDebug -x test'
-		        //sh 'gradle build -PstorePass=${KEYSTORE_PASSWORD} -PfilePath=${STORE_PATH} -Palias=${KEY_ALIAS} -PkeyPass=${KEY_PASSWORD}'
-		        sh 'gradle assembleRelease'
+		        sh 'gradle build -PstorePass=${KEYSTORE_PASSWORD} -PfilePath=${STORE_PATH} -Palias=${KEY_ALIAS} -PkeyPass=${KEY_PASSWORD}'
+		        //sh 'gradle assembleRelease'
            }
         }
+    stage('Deploy App to Store') {
+       steps {
+        echo 'Deploying to PlayStore'
+          script {			    		   
+	        androidApkUpload googleCredentialsId: 'Google Play Console Developer',
+                 filesPattern: '**/build/outputs/**/*.apk',
+		 trackName: 'alpha',
+		 //trackName: 'internal',
+		 //trackName: 'release'
+	         rolloutPercentage: '0',                 
+                 recentChangeList: [
+                   [language: 'en-GB', text: "Please test the changes from Jenkins build ${env.BUILD_NUMBER}."],
+                   [language: 'de-DE', text: "Bitte die Änderungen vom Jenkins Build ${env.BUILD_NUMBER} testen."]
+                 ]	  
+		}
+	    }
+	}
   }
 }
